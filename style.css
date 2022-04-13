@@ -14,14 +14,15 @@ body::-webkit-scrollbar {
 main {
   min-width: 550px;
   flex: 1;
+
+  display: flex;
+  padding-top: 50px;
 }
 
 #preview {
-  border-style: solid;
+  /* border-style: solid; */
 
-  max-width: 90%;
-  height: auto;
-  width/***/: auto;
+  flex: 1;
 }
 
 /* 親ビューに合わせる */
@@ -33,7 +34,7 @@ main {
 
 aside {
   width: 20%;
-  min-width: 355px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
 
@@ -45,8 +46,4 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.piepropertys {
-  margin-top: 50px;
 }

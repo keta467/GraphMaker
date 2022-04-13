@@ -1,87 +1,17 @@
-// //ポスト
-// function post(piecharttypestring, kakurinumber, fontstring, effect) {
-//   //アラート
-//   var effectstr = "";
-//   if (effect == true) {
-//     effectstr = "geteffect";
-//   } else {
-//     effectstr = "noeffect";
-//   }
-
-//   // var ui = SpreadsheetApp.getUi();
-//   // ui.alert("メッセージ", "true", ui.ButtonSet.OK);
-
-//   var data = getcsv();
-
-//   if (
-//     data == "NG 選択範囲異常" ||
-//     data == "NG 左が空" ||
-//     data == "NG 右が空" ||
-//     data == "NG 右が数値じゃない"
-//   ) {
-//     //アラート
-//     var ui = SpreadsheetApp.getUi();
-//     ui.alert("メッセージ", data, ui.ButtonSet.OK);
-//     return "";
-//   }
-
-//   // POST
-//   var requestPayload = {
-//     csvdata: getcsv(),
-//     piecharttypestring: piecharttypestring,
-//     kakurinumber: kakurinumber,
-//     fontstring: fontstring,
-//     effectstr: effectstr,
-//   };
-//   // リクエストヘッダー
-//   var requestHeaders = {
-//     "Content-Type": "application/json",
-//   };
-//   // リクエストオプション
-//   var requestOptions = {
-//     method: "post",
-//     payload: JSON.stringify(requestPayload),
-//     headers: requestHeaders,
-//   };
-//   //http://tozin.yuiiuy.net:42944/prism
-//   //http://ec2.yuiiuy.net:9001/prism/
-//   var requestUrl = "http://ec2.yuiiuy.net:9001/prism/";
-//   var response = UrlFetchApp.fetch(requestUrl, requestOptions);
-//   var responseCode = response.getResponseCode();
-//   var responseText = response.getContentText();
-
-//   // console.log(responseCode);
-//   //console.log(responseText);
-
-//   let json = JSON.parse(responseText);
-
-//   return json;
-// }
-async function showMessage() {
-  //ダウンロードボタンを非表示
-  document.getElementById("downloaddiv").style.display = "none";
-  //作画中を表示
-  document.getElementById("sakugachuu").style.display = "block";
-
-  //値の取得
-  const piecharttype = document.getElementById("piecharttype");
-  const piecharttypeselectedIndex = piecharttype.selectedIndex;
-  const piecharttypestring =
-    piecharttype.options[piecharttypeselectedIndex].value;
-
-  const kakuri = document.getElementById("kakuri");
-  const kakuriselectedIndex = kakuri.selectedIndex;
-  const kakurinumber = kakuri.options[kakuriselectedIndex].value;
-
-  const font = document.getElementById("font");
-  const fontselectedIndex = font.selectedIndex;
-  const fontstring = font.options[fontselectedIndex].value;
-
-  const effect = document.getElementById("effect").checked;
-
-  post(piecharttypestring, kakurinumber, fontstring, effect);
-}
 async function post2() {
+  //値check
+  var str = getcsv();
+  if (
+    str == "NG 選択範囲異常" ||
+    str == "NG 左が空" ||
+    str == "NG 右が空" ||
+    str == "NG 右が数値じゃない"
+  ) {
+    //アラート
+    window.alert(str);
+    return;
+  }
+
   //ダウンロードボタンを非表示
   document.getElementById("downloaddiv").style.display = "none";
   //作画中を表示
