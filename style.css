@@ -1,0 +1,31 @@
+body {
+    margin: 10;
+    font-size: 1rem;
+    -ms-overflow-style: none;    /* IE, Edge 対応 *//* スクロールバーを消す */
+    scrollbar-width: none;       /* Firefox 対応 *//* スクロールバーを消す */
+}
+
+body::-webkit-scrollbar {  /* Chrome, Safari 対応 *//* スクロールバーを消す */
+    display:none;
+}
+
+main {
+    width: 80%;
+    border-style: solid;
+}
+
+/* 親ビューに合わせる */
+#previewimage{
+    max-width: 100%;
+    height: auto;
+    width /***/:auto;
+}
+
+aside {
+    width: 25%;
+    min-width: 550px;
+}
+
+.piepropertys{
+    font-size: 40;
+}
