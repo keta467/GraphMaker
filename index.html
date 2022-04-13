@@ -7,81 +7,75 @@
   </head>
   <body>
     <aside>
-      <div id="mytable"></div>
-      <div>
-        <br class="piepropertys">
+      <nav>
+        <ul>
+          <li><a href="https://www.marorika.com/">円グラフ</a></li>
+          <li>棒グラフ</li>
+          <li>競馬グラフ１</li>
+          <li>競馬グラフ２</li>
+        </ul>
+      </nav>
+      <div class="piepropertys">
+        <div id="mytable"></div>
+
         円グラフの種類
         <select id="piecharttype">
-        <option value="default">デフォルト</option>
-        <option value="donut">ドーナツ</option>
-        </select>　
-  
-        <br>
+          <option value="default">デフォルト</option>
+          <option value="donut">ドーナツ</option></select
+        >　
+
+        <br />
         隔離する扇の番号
         <select id="kakuri">
-        <option value="0">隔離なし</option>
-        <option value="1">1番目</option>
-        <option value="2">2番目</option>
-        <option value="3">3番目</option>
-        <option value="4">4番目</option>
-        <option value="5">5番目</option>
-        <option value="6">6番目</option>
-        <option value="7">7番目</option>
-        <option value="8">8番目</option>
-        <option value="9">9番目</option>
-        <option value="10">10番目</option>
-        </select>　
-  
-        <br>
+          <option value="0">隔離なし</option>
+          <option value="1">1番目</option>
+          <option value="2">2番目</option>
+          <option value="3">3番目</option>
+          <option value="4">4番目</option>
+          <option value="5">5番目</option>
+          <option value="6">6番目</option>
+          <option value="7">7番目</option>
+          <option value="8">8番目</option>
+          <option value="9">9番目</option>
+          <option value="10">10番目</option></select
+        >　
+
+        <br />
         フォント
         <select id="font">
-        <option value="arial">Arial</option>        
-        <option value="lsnmaru">LSNマール体</option>
-        <option value="langothic">LSN太角ゴシック体</option>
-        <option value="lsnminchou">LSN太明朝体</option>
-        </select>　      
+          <option value="arial">Arial</option>
+          <option value="lsnmaru">LSNマール体</option>
+          <option value="langothic">LSN太角ゴシック体</option>
+          <option value="lsnminchou">LSN太明朝体</option>
+        </select>
         <div>
-          <input type="checkbox" id="effect">
+          <input type="checkbox" id="effect" />
           <label for="scales">エフェクト(.mp4)の取得</label>
-        </div>        
-  
-        <br>
+        </div>
         <button id="show_message" onclick="post2();">円グラフを作成する</button>
-  
-        <b id = "sakugachuu" style="display: none">作画中...</b>
-  
-        <div id = "downloaddiv" style="display: none">
-          <br>
-          <a id="download" href="#" download="graph.png">イメージ(.png)(右クリック>リンク先を保存)</a>
-          <br>
-          <a id="download2" href="#" download="graph.scene">シーン(.scn)(右クリック>リンク先を保存)</a>
-          <br>
-          <a id="download3" href="#" download="graph.mp4">エフェクト(.mp4)(右クリック>リンク先を保存)</a>        
-        <div>
+        <b id="sakugachuu" style="display: none">作画中...</b>
       </div>
-      
-   </aside>
-   <main>
-    <p>プレビュー</p>
-    <img src="" alt="" id="previewimage">     
-      <!-- <svg
-      width="80%"
-      height="auto"
-      viewBox="0, 0, 1920, 1080"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="0"
-        y="0"
-        width="1920"
-        height="1080"
-        stroke="none"
-        stroke-width="1"
-        fill="#1C242AFF"
-      />
-    </svg> -->
-   </main>
-
+      <div id="downloaddiv" style="display: none">
+        <br />
+        <a id="download" href="#" download="graph.png">
+          イメージ(.png)(右クリック>リンク先を保存)
+        </a>
+        <br />
+        <a id="download2" href="#" download="graph.scene">
+          シーン(.scn)(右クリック>リンク先を保存)
+        </a>
+        <br />
+        <a id="download3" href="#" download="graph.mp4">
+          エフェクト(.mp4)(右クリック>リンク先を保存)
+        </a>
+      </div>
+    </aside>
+    <main>
+      <div id="preview">
+        <p>プレビュー</p>
+        <img src="" alt="" id="previewimage" />
+      </div>
+    </main>
   </body>
 
   <script src="https://bossanova.uk/jexcel/v4/jexcel.js"></script>
@@ -106,10 +100,10 @@
 
     jexcel(table, {
       data: data,
-      columns:[
-        { title:'項目名', width:300 },
-        { title:'値', width:200 },
-    ]
+      columns: [
+        { title: "項目名", width: 200 },
+        { title: "値", width: 100 },
+      ],
     });
   </script>
 </html>

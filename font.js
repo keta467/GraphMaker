@@ -82,7 +82,11 @@ async function showMessage() {
   post(piecharttypestring, kakurinumber, fontstring, effect);
 }
 async function post2() {
-  getcsv();
+  //ダウンロードボタンを非表示
+  document.getElementById("downloaddiv").style.display = "none";
+  //作画中を表示
+  document.getElementById("sakugachuu").style.display = "block";
+
   //return;
   //値の取得
   const piecharttype = document.getElementById("piecharttype");
