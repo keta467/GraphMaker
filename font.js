@@ -1,4 +1,4 @@
-// //ポスト
+// //ポスト コメントを追加しました。
 // function post(piecharttypestring, kakurinumber, fontstring, effect) {
 //   //アラート
 //   var effectstr = "";
