@@ -19,14 +19,17 @@ main {
   padding-top: 50px;
 }
 
+.piepropertys {
+  margin-right: 20px;
+}
+
 #preview {
   /* border-style: solid; */
-
   flex: 1;
 }
 
-/* 親ビューに合わせる */
 #previewimage {
+  /* 親ビューに合わせる */
   max-width: 100%;
   height: auto;
   width/***/: auto;
