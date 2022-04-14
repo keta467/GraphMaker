@@ -74,7 +74,7 @@ async function post(userNumber) {
   fetch(url, {
     method: "POST",
     header: {
-      "Content-Type": "application/json", // JSON形式のデータのヘッダー
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(postdata),
   })
