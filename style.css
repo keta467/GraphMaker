@@ -1,31 +1,52 @@
 body {
-    margin: 10;
-    font-size: 1rem;
-    -ms-overflow-style: none;    /* IE, Edge 対応 *//* スクロールバーを消す */
-    scrollbar-width: none;       /* Firefox 対応 *//* スクロールバーを消す */
+  margin: 0;
+  font-size: 1rem;
+  display: flex;
+  -ms-overflow-style: none; /* IE, Edge 対応 */ /* スクロールバーを消す */
+  scrollbar-width: none; /* Firefox 対応 */ /* スクロールバーを消す */
 }
 
-body::-webkit-scrollbar {  /* Chrome, Safari 対応 *//* スクロールバーを消す */
-    display:none;
+body::-webkit-scrollbar {
+  /* Chrome, Safari 対応 */ /* スクロールバーを消す */
+  display: none;
 }
 
 main {
-    width: 80%;
-    border-style: solid;
+  min-width: 550px;
+  flex: 1;
+
+  display: flex;
+  padding-top: 40px;
 }
 
-/* 親ビューに合わせる */
-#previewimage{
-    max-width: 100%;
-    height: auto;
-    width /***/:auto;
+.piepropertys {
+  margin-right: 20px;
+}
+
+#preview {
+  /* border-style: solid; */
+  flex: 1;
+}
+
+#previewimage {
+  /* 親ビューに合わせる */
+  max-width: 100%;
+  height: auto;
+  width/***/: auto;
 }
 
 aside {
-    width: 25%;
-    min-width: 550px;
+  width: 20%;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+  background-color: rgb(159, 135, 180);
 }
 
-.piepropertys{
-    font-size: 40;
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

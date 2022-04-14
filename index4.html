@@ -24,41 +24,8 @@
       </div>
       <div class="piepropertys">
         <div>
-          円グラフの種類
-          <select id="piecharttype">
-            <option value="default">デフォルト</option>
-            <option value="donut">ドーナツ</option>
-          </select>
-          <br />
-          隔離する扇の番号
-          <select id="kakuri">
-            <option value="0">隔離なし</option>
-            <option value="1">1番目</option>
-            <option value="2">2番目</option>
-            <option value="3">3番目</option>
-            <option value="4">4番目</option>
-            <option value="5">5番目</option>
-            <option value="6">6番目</option>
-            <option value="7">7番目</option>
-            <option value="8">8番目</option>
-            <option value="9">9番目</option>
-            <option value="10">10番目</option>
-          </select>
-
-          <br />
-          フォント
-          <select id="font">
-            <option value="arial">Arial</option>
-            <option value="lsnmaru">LSNマール体</option>
-            <option value="langothic">LSN太角ゴシック体</option>
-            <option value="lsnminchou">LSN太明朝体</option>
-          </select>
-          <div>
-            <input type="checkbox" id="effect" />
-            <label for="scales">エフェクト(.mp4)の取得</label>
-          </div>
-          <button id="show_message" onclick="post(1);">
-            円グラフを作成する
+          <button id="show_message" onclick="post(4);">
+            競馬用グラフを作成する
           </button>
           <b id="sakugachuu" style="display: none">作画中...</b>
         </div>
@@ -83,15 +50,9 @@
   <script src="./font.js"></script>
   <script>
     const data = [
-      ["Chrome", 61.41],
-      ["Internet Explorer", 11.84],
-      ["Firefox", 10.85],
-      ["Edge", 4.67],
-      ["Safari", 4.18],
-      ["Sogou Explorer", 1.64],
-      ["Opera", 1.6],
-      ["QQ", 1.2],
-      ["Other", 2.61],
+      ["ナムラクレア", "阪神ジュベナイルF", 5, 6, 5, 3, 3, 2, 4],
+      ["アネゴハダ", "3歳1勝クラス", 1, 1, 3, 3, 4, 2, 2],
+      ["キミワクイーン", "阪神ジュベナイルF", 10, 10, 3, 2, 3, 3, 2],
     ];
 
     const table = document.getElementById("mytable");
@@ -99,8 +60,15 @@
     jexcel(table, {
       data: data,
       columns: [
-        { title: "項目名", width: 200 },
-        { title: "値", width: 100 },
+        { title: "注目馬", width: 120 },
+        { title: "クラス", width: 150 },
+        { title: "着順", width: 50 },
+        { title: "人気", width: 50 },
+        { title: "待ち時計", width: 50 },
+        { title: "展開", width: 50 },
+        { title: "コース適正", width: 50 },
+        { title: "オッズ妙味", width: 50 },
+        { title: "実績", width: 50 },
       ],
     });
   </script>

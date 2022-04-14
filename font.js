@@ -1,137 +1,72 @@
-// //ポスト
-// function post(piecharttypestring, kakurinumber, fontstring, effect) {
-//   //アラート
-//   var effectstr = "";
-//   if (effect == true) {
-//     effectstr = "geteffect";
-//   } else {
-//     effectstr = "noeffect";
-//   }
-
-//   // var ui = SpreadsheetApp.getUi();
-//   // ui.alert("メッセージ", "true", ui.ButtonSet.OK);
-
-//   var data = getcsv();
-
-//   if (
-//     data == "NG 選択範囲異常" ||
-//     data == "NG 左が空" ||
-//     data == "NG 右が空" ||
-//     data == "NG 右が数値じゃない"
-//   ) {
-//     //アラート
-//     var ui = SpreadsheetApp.getUi();
-//     ui.alert("メッセージ", data, ui.ButtonSet.OK);
-//     return "";
-//   }
-
-//   // POST
-//   var requestPayload = {
-//     csvdata: getcsv(),
-//     piecharttypestring: piecharttypestring,
-//     kakurinumber: kakurinumber,
-//     fontstring: fontstring,
-//     effectstr: effectstr,
-//   };
-//   // リクエストヘッダー
-//   var requestHeaders = {
-//     "Content-Type": "application/json",
-//   };
-//   // リクエストオプション
-//   var requestOptions = {
-//     method: "post",
-//     payload: JSON.stringify(requestPayload),
-//     headers: requestHeaders,
-//   };
-//   //http://tozin.yuiiuy.net:42944/prism
-//   //http://ec2.yuiiuy.net:9001/prism/
-//   var requestUrl = "http://ec2.yuiiuy.net:9001/prism/";
-//   var response = UrlFetchApp.fetch(requestUrl, requestOptions);
-//   var responseCode = response.getResponseCode();
-//   var responseText = response.getContentText();
-
-//   // console.log(responseCode);
-//   //console.log(responseText);
-
-//   let json = JSON.parse(responseText);
-
-//   return json;
-// }
-async function showMessage() {
+async function post(userNumber) {
   //ダウンロードボタンを非表示
   document.getElementById("downloaddiv").style.display = "none";
   //作画中を表示
   document.getElementById("sakugachuu").style.display = "block";
 
-  //値の取得
-  const piecharttype = document.getElementById("piecharttype");
-  const piecharttypeselectedIndex = piecharttype.selectedIndex;
-  const piecharttypestring =
-    piecharttype.options[piecharttypeselectedIndex].value;
-
-  const kakuri = document.getElementById("kakuri");
-  const kakuriselectedIndex = kakuri.selectedIndex;
-  const kakurinumber = kakuri.options[kakuriselectedIndex].value;
-
-  const font = document.getElementById("font");
-  const fontselectedIndex = font.selectedIndex;
-  const fontstring = font.options[fontselectedIndex].value;
-
-  const effect = document.getElementById("effect").checked;
-
-  post(piecharttypestring, kakurinumber, fontstring, effect);
-}
-async function post2() {
-  getcsv();
-  //return;
-  //値の取得
-  const piecharttype = document.getElementById("piecharttype");
-  const piecharttypeselectedIndex = piecharttype.selectedIndex;
-  const piecharttypestring =
-    piecharttype.options[piecharttypeselectedIndex].value;
-
-  const kakuri = document.getElementById("kakuri");
-  const kakuriselectedIndex = kakuri.selectedIndex;
-  const kakurinumber = kakuri.options[kakuriselectedIndex].value;
-
-  const font = document.getElementById("font");
-  const fontselectedIndex = font.selectedIndex;
-  const fontstring = font.options[fontselectedIndex].value;
-
-  const effect = document.getElementById("effect").checked;
-  var effectstr = "";
-  if (effect == true) {
-    effectstr = "geteffect";
-  } else {
-    effectstr = "noeffect";
+  //値check
+  var CSVDATA = getcsv(userNumber);
+  if (CSVDATA.indexOf("NG") != -1) {
+    //アラート
+    window.alert(CSVDATA);
+    //作画中を非表示
+    document.getElementById("sakugachuu").style.display = "none";
+    return;
   }
 
-  console.log("----入力された値-----");
-  console.log(piecharttypestring);
-  console.log(kakurinumber);
-  console.log(fontstring);
-  console.log(effectstr);
-  console.log("---------------");
+  var postdata;
+  if (userNumber == 1) {
+    //値の取得
+    const piecharttype = document.getElementById("piecharttype");
+    const piecharttypeselectedIndex = piecharttype.selectedIndex;
+    const piecharttypestring =
+      piecharttype.options[piecharttypeselectedIndex].value;
 
-  let postdata = {
-    csvdata: getcsv(),
-    piecharttypestring: piecharttypestring,
-    kakurinumber: kakurinumber,
-    fontstring: fontstring,
-    effectstr: effectstr,
-  };
+    const kakuri = document.getElementById("kakuri");
+    const kakuriselectedIndex = kakuri.selectedIndex;
+    const kakurinumber = kakuri.options[kakuriselectedIndex].value;
+
+    const font = document.getElementById("font");
+    const fontselectedIndex = font.selectedIndex;
+    const fontstring = font.options[fontselectedIndex].value;
+
+    const effect = document.getElementById("effect").checked;
+    var effectstr = "";
+    if (effect == true) {
+      effectstr = "geteffect";
+    } else {
+      effectstr = "noeffect";
+    }
+
+    console.log("----入力された値-----");
+    console.log(piecharttypestring);
+    console.log(kakurinumber);
+    console.log(fontstring);
+    console.log(effectstr);
+    console.log("---------------");
+    postdata = {
+      usernumber: userNumber,
+      csvdata: CSVDATA,
+      piecharttypestring: piecharttypestring,
+      kakurinumber: kakurinumber,
+      fontstring: fontstring,
+      effectstr: effectstr,
+    };
+  } else if (userNumber == 2 || userNumber == 3 || userNumber == 4) {
+    postdata = {
+      usernumber: userNumber,
+      csvdata: CSVDATA,
+    };
+  }
 
   console.log(postdata);
 
   //設定エリア
   //https通信
-  var subdomain = "ec2.yuiiuy.net";
-  var port = "9001";
-  var url = `https://${subdomain}:${port}/prism/`;
-
-  //証明書エラーのため、httpでの通信
-  //subdomain = "192.168.10.110";
-  port = "9001";
+  // var subdomain = "ec2.yuiiuy.net";
+  // var port = "9001";
+  var subdomain = "tozin.yuiiuy.net";
+  var port = "42944";
   url = `http://${subdomain}:${port}/prism/`;
 
   console.log(url);
@@ -155,14 +90,22 @@ async function post2() {
       var imageData = data["imageData"];
       var sceneData = data["sceneData"];
       var movieData = data["movieData"];
+      var svgData = data["svgData"];
       document.getElementById("download").href = imageData;
       document.getElementById("download2").href = sceneData;
       document.getElementById("download3").href = movieData;
+      document.getElementById("download4").href = svgData;
       //消す
       if (movieData == "") {
         document.getElementById("download3").style.display = "none";
       } else {
         document.getElementById("download3").style.display = "block";
+      }
+      //消す
+      if (svgData == "") {
+        document.getElementById("download4").style.display = "none";
+      } else {
+        document.getElementById("download4").style.display = "block";
       }
 
       //ダウンロードボタンを表示
@@ -178,115 +121,100 @@ async function post2() {
     });
 }
 
-//画像を保存したい
-async function post(piecharttypestring, kakurinumber, fontstring, effectstr) {
-  const body = {
-    //csvdata: getcsv(),
-    csvdata: "Chrome,61.41\r\nInternet Explorer,11.84",
-    piecharttypestring: piecharttypestring,
-    kakurinumber: kakurinumber,
-    fontstring: fontstring,
-    effectstr: effectstr,
-  };
-  console.log(body);
-  await fetch(encodeURI("http://tozin.yuiiuy.net:42944/prism/"), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      csvdata:
-        "Chrome,61.41\r\nInternet Explorer,11.84\r\nFirefox,10.85\r\nEdge,4.67\r\nSafari,4.18\r\nSogou Explorer,1.64\r\nOpera,1.6",
-      piecharttypestring: "default",
-      kakurinumber: "0",
-      fontstrings: "arial",
-      effectstr: "noeffect",
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("通信成功");
-      console.log(data);
-
-      if (json == "") {
-        //作画中を非表示
-        document.getElementById("sakugachuu").style.display = "none";
-        return;
-      }
-
-      // //画像のダウンロード設定
-      var imageData = json["imageData"];
-      var sceneData = json["sceneData"];
-      var movieData = json["movieData"];
-      document.getElementById("download").href = imageData;
-      document.getElementById("download2").href = sceneData;
-      document.getElementById("download3").href = movieData;
-      //消す
-      if (movieData == "") {
-        document.getElementById("download3").style.display = "none";
-      } else {
-        document.getElementById("download3").style.display = "block";
-      }
-
-      //ダウンロードボタンを表示
-      document.getElementById("downloadimage").src = imageData;
-      document.getElementById("downloaddiv").style.display = "block";
-      //作画中を非表示
-      document.getElementById("sakugachuu").style.display = "none";
-    })
-    .catch((e) => console.log("フェッチエラー" + e));
-}
-
-//引数はbase64形式の文字列
-function toBlob(base64) {
-  var bin = atob(base64.replace(/^.*,/, ""));
-  var buffer = new Uint8Array(bin.length);
-  for (var i = 0; i < bin.length; i++) {
-    buffer[i] = bin.charCodeAt(i);
-  }
-  // Blobを作成
-  try {
-    var blob = new Blob([buffer.buffer], {
-      type: "image/png",
-    });
-  } catch (e) {
-    return false;
-  }
-  return blob;
-}
-
-//スプレットシートの内容をCSV形式で返す関数
-function getcsv() {
-  var values = data;
+//jexelの内容をCSV形式で返す関数
+function getcsv(userNumber) {
   // 二次元配列をCSV形式のテキストデータに変換
-  var dataArray = [];
-  for (var i = 0; i < values.length; i++) {
-    dataArray.push(values[i].join(","));
+  var lines = [];
+  for (var i = 0; i < data.length; i++) {
+    lines.push(data[i].join(","));
   }
+  //空欄check
+  for (var i = 0; i < lines.length; i++) {
+    var valueArr = lines[i].split(",");
+    for (var j = 0; j < valueArr.length; j++) {
+      if (valueArr[j] == "") {
+        return "NG 空欄があります。";
+      }
+    }
+  }
+  if (userNumber == 1 || userNumber == 2) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 2) {
+      return "NG 選択範囲異常";
+    }
 
-  var d = dataArray[0].split(",");
-  if (d.length != 2) {
-    console.log("NG 値が多すぎます");
-    return "NG 選択範囲異常";
-  }
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+      if (isNumber(lineStrArr[1]) == false) {
+        return "NG 数値じゃない";
+      }
+    }
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
+  } else if (userNumber == 3) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 5 || lines.length != 3) {
+      return "NG 選択範囲異常";
+    }
 
-  for (var i = 0; i < dataArray.length; i++) {
-    console.log(dataArray[i]);
-    var d = dataArray[i].split(",");
-    if (d[0] == "") {
-      console.log("NG 左が空");
-      return "NG 左が空";
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+
+      if (isNumber(lineStrArr[1]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[2]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[3]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[4]) == false) {
+        return "NG 数値じゃない";
+      }
     }
-    if (d[1] == "") {
-      console.log("NG 右が空");
-      return "NG 右が空";
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
+  } else if (userNumber == 4) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 9 || lines.length != 3) {
+      return "NG 選択範囲異常";
     }
-    if (isNumber(d[1]) == false) {
-      console.log("NG 右が数値じゃない");
-      return "NG 右が数値じゃない";
+
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+
+      if (isNumber(lineStrArr[2]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[3]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[4]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[5]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[6]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[7]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[8]) == false) {
+        return "NG 数値じゃない";
+      }
     }
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
   }
-  return dataArray.join("\r\n"); // 改行コードは windows を想定
 }
 
 function isNumber(numVal) {
