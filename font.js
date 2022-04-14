@@ -52,7 +52,12 @@ async function post(userNumber) {
       fontstring: fontstring,
       effectstr: effectstr,
     };
-  } else if (userNumber == 2 || userNumber == 3 || userNumber == 4) {
+  } else if (
+    userNumber == 2 ||
+    userNumber == 3 ||
+    userNumber == 4 ||
+    userNumber == 5
+  ) {
     postdata = {
       usernumber: userNumber,
       csvdata: CSVDATA,
@@ -67,6 +72,7 @@ async function post(userNumber) {
   // var port = "9001";
   var subdomain = "tozin.yuiiuy.net";
   var port = "42944";
+
   url = `http://${subdomain}:${port}/prism/`;
 
   console.log(url);
@@ -209,6 +215,23 @@ function getcsv(userNumber) {
         return "NG 数値じゃない";
       }
       if (isNumber(lineStrArr[8]) == false) {
+        return "NG 数値じゃない";
+      }
+    }
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
+  } else if (userNumber == 5) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 2 || lines.length != 2) {
+      return "NG 選択範囲異常";
+    }
+
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+
+      if (isNumber(lineStrArr[1]) == false) {
         return "NG 数値じゃない";
       }
     }

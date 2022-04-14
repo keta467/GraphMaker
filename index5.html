@@ -25,7 +25,7 @@
       </div>
       <div class="piepropertys">
         <div>
-          <button id="show_message" onclick="post(4);">
+          <button id="show_message" onclick="post(5);">
             競馬用グラフを作成する
           </button>
           <b id="sakugachuu" style="display: none">作画中...</b>
@@ -51,9 +51,8 @@
   <script src="./font.js"></script>
   <script>
     const data = [
-      ["ナムラクレア", "阪神ジュベナイルF", 5, 6, 5, 3, 3, 2, 4],
-      ["アネゴハダ", "3歳1勝クラス", 1, 1, 3, 3, 4, 2, 2],
-      ["キミワクイーン", "阪神ジュベナイルF", 10, 10, 3, 2, 3, 3, 2],
+      ["1・2着", 80],
+      ["3着以下", 20],
     ];
 
     const table = document.getElementById("mytable");
@@ -61,15 +60,8 @@
     jexcel(table, {
       data: data,
       columns: [
-        { title: "注目馬", width: 120 },
-        { title: "クラス", width: 150 },
-        { title: "着順", width: 50 },
-        { title: "人気", width: 50 },
-        { title: "待ち時計", width: 50 },
-        { title: "展開", width: 50 },
-        { title: "コース適正", width: 50 },
-        { title: "オッズ妙味", width: 50 },
-        { title: "実績", width: 50 },
+        { title: "項目名", width: 150 },
+        { title: "値", width: 100 },
       ],
     });
   </script>
