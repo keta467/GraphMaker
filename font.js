@@ -217,6 +217,7 @@ function getcsv(userNumber) {
   }
 }
 
+//数字チェック関数
 function isNumber(numVal) {
   // チェック条件パターン
   var pattern = /^[]?([1-9]\d*|0)(\.\d+)?$/;
