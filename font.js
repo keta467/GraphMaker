@@ -3,23 +3,19 @@ async function post(userNumber) {
   document.getElementById("downloaddiv").style.display = "none";
   //作画中を表示
   document.getElementById("sakugachuu").style.display = "block";
-  //プレビュー画像を非表示
-  //document.getElementById("previewimage").src = "";
+
+  //値check
+  var CSVDATA = getcsv(userNumber);
+  if (CSVDATA.indexOf("NG") != -1) {
+    //アラート
+    window.alert(CSVDATA);
+    //作画中を非表示
+    document.getElementById("sakugachuu").style.display = "none";
+    return;
+  }
 
   var postdata;
   if (userNumber == 1) {
-    //値check
-    var str = getcsv();
-    if (
-      str == "NG 選択範囲異常" ||
-      str == "NG 左が空" ||
-      str == "NG 右が空" ||
-      str == "NG 右が数値じゃない"
-    ) {
-      //アラート
-      window.alert(str);
-      return;
-    }
     //値の取得
     const piecharttype = document.getElementById("piecharttype");
     const piecharttypeselectedIndex = piecharttype.selectedIndex;
@@ -50,7 +46,7 @@ async function post(userNumber) {
     console.log("---------------");
     postdata = {
       usernumber: userNumber,
-      csvdata: getcsv(userNumber),
+      csvdata: CSVDATA,
       piecharttypestring: piecharttypestring,
       kakurinumber: kakurinumber,
       fontstring: fontstring,
@@ -59,7 +55,7 @@ async function post(userNumber) {
   } else if (userNumber == 2 || userNumber == 3 || userNumber == 4) {
     postdata = {
       usernumber: userNumber,
-      csvdata: getcsv(userNumber),
+      csvdata: CSVDATA,
     };
   }
 
@@ -94,14 +90,22 @@ async function post(userNumber) {
       var imageData = data["imageData"];
       var sceneData = data["sceneData"];
       var movieData = data["movieData"];
+      var svgData = data["svgData"];
       document.getElementById("download").href = imageData;
       document.getElementById("download2").href = sceneData;
       document.getElementById("download3").href = movieData;
+      document.getElementById("download4").href = svgData;
       //消す
       if (movieData == "") {
         document.getElementById("download3").style.display = "none";
       } else {
         document.getElementById("download3").style.display = "block";
+      }
+      //消す
+      if (svgData == "") {
+        document.getElementById("download4").style.display = "none";
+      } else {
+        document.getElementById("download4").style.display = "block";
       }
 
       //ダウンロードボタンを表示
@@ -119,68 +123,97 @@ async function post(userNumber) {
 
 //jexelの内容をCSV形式で返す関数
 function getcsv(userNumber) {
-  if (userNumber == 1) {
-    var values = data;
-    // 二次元配列をCSV形式のテキストデータに変換
-    var dataArray = [];
-    for (var i = 0; i < values.length; i++) {
-      dataArray.push(values[i].join(","));
+  // 二次元配列をCSV形式のテキストデータに変換
+  var lines = [];
+  for (var i = 0; i < data.length; i++) {
+    lines.push(data[i].join(","));
+  }
+  //空欄check
+  for (var i = 0; i < lines.length; i++) {
+    var valueArr = lines[i].split(",");
+    for (var j = 0; j < valueArr.length; j++) {
+      if (valueArr[j] == "") {
+        return "NG 空欄があります。";
+      }
     }
-
-    var d = dataArray[0].split(",");
-    if (d.length != 2) {
-      console.log("NG 値が多すぎます");
+  }
+  if (userNumber == 1 || userNumber == 2) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 2) {
       return "NG 選択範囲異常";
     }
 
-    for (var i = 0; i < dataArray.length; i++) {
-      console.log(dataArray[i]);
-      var d = dataArray[i].split(",");
-      if (d[0] == "") {
-        console.log("NG 左が空");
-        return "NG 左が空";
-      }
-      if (d[1] == "") {
-        console.log("NG 右が空");
-        return "NG 右が空";
-      }
-      if (isNumber(d[1]) == false) {
-        console.log("NG 右が数値じゃない");
-        return "NG 右が数値じゃない";
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+      if (isNumber(lineStrArr[1]) == false) {
+        return "NG 数値じゃない";
       }
     }
-    return dataArray.join("\r\n"); // 改行コードは windows を想定
-  } else if (userNumber == 2 || userNumber == 3 || userNumber == 4) {
-    var values = data;
-    // 二次元配列をCSV形式のテキストデータに変換
-    var dataArray = [];
-    for (var i = 0; i < values.length; i++) {
-      dataArray.push(values[i].join(","));
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
+  } else if (userNumber == 3) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 5 || lines.length != 3) {
+      return "NG 選択範囲異常";
     }
 
-    // var d = dataArray[0].split(",");
-    // if (d.length != 2) {
-    //   console.log("NG 値が多すぎます");
-    //   return "NG 選択範囲異常";
-    // }
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
 
-    // for (var i = 0; i < dataArray.length; i++) {
-    //   console.log(dataArray[i]);
-    //   var d = dataArray[i].split(",");
-    //   if (d[0] == "") {
-    //     console.log("NG 左が空");
-    //     return "NG 左が空";
-    //   }
-    //   if (d[1] == "") {
-    //     console.log("NG 右が空");
-    //     return "NG 右が空";
-    //   }
-    //   if (isNumber(d[1]) == false) {
-    //     console.log("NG 右が数値じゃない");
-    //     return "NG 右が数値じゃない";
-    //   }
-    // }
-    return dataArray.join("\r\n"); // 改行コードは windows を想定
+      if (isNumber(lineStrArr[1]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[2]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[3]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[4]) == false) {
+        return "NG 数値じゃない";
+      }
+    }
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
+  } else if (userNumber == 4) {
+    //5列 3行 check
+    var lineStrArr = lines[0].split(",");
+    if (lineStrArr.length != 9 || lines.length != 3) {
+      return "NG 選択範囲異常";
+    }
+
+    //数値check
+    for (var i = 0; i < lines.length; i++) {
+      var lineStrArr = lines[i].split(",");
+
+      if (isNumber(lineStrArr[2]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[3]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[4]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[5]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[6]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[7]) == false) {
+        return "NG 数値じゃない";
+      }
+      if (isNumber(lineStrArr[8]) == false) {
+        return "NG 数値じゃない";
+      }
+    }
+    // 改行コードは windows を想定
+    return lines.join("\r\n");
   }
 }
 
